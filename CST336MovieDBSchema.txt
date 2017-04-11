@@ -1,0 +1,24 @@
+3 Tables
+CST 336 Database Schema
+
+directorTable
+	direcId			(smallInt)(PrimaryKey)		
+	fName			(varchar)
+	lName			(varchar)
+
+moviesTable
+	movieTitle 		(varchar)
+	directorId 		(smallint) (foriegnK)
+	releaseYear 	(date)
+	length			(smallint)
+	movieId 		(smallint)(PrimaryKey)
+	
+customerInfo
+	fName			(varchar)
+	lName			(varchar)
+	customerId 		(smallint)(PrimaryKey)	
+	dateBought		(date)
+	movieBought 	(smallint)(forgienKey)
+
+
+
