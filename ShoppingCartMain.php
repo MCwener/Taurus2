@@ -31,7 +31,8 @@ function getMoviesSearch() {
             WHERE 1";
 
     if(!isset($_GET['Movie']) && empty($_GET['status']) &&
-        empty($_GET['Time'])){
+        empty($_GET['Time']) && empty($_GET['Decade']) &&
+            empty($_GET['Name'])){
         $sql = "SELECT movieTitle, releaseYear, length 
                 FROM moviesTable join directorTable
                 ON moviesTable.directorId = directorTable.direcId";
@@ -46,6 +47,14 @@ function getMoviesSearch() {
         $Time = $_GET['Time'];
         $sql .=" $Time";
         
+    }
+    if(isset($_GET['Decade'])){
+        $Decade = $_GET['Decade'];
+        $sql.=" $Decade";
+        
+    }
+    if(isset($_GET['Name'])){
+        $sql.=" ORDER BY movieTitle";   
     }
     
     $stmt = $conn -> prepare ($sql);
@@ -82,8 +91,16 @@ function getCart(){
           <option value="AND length > 100 AND length < 200">Between 100 and 200 mins</option>
           <option value="AND length > 200">More than 200 mins</option>
          </select> 
+         
+        Movie Decade:
+         <select name= "Decade">
+          <option value="">Select Decade</option>
+          <option value="AND year(releaseYear) < 1990">1980's</option>
+          <option value="AND year(releaseYear) > 1989 AND year(releaseYear) < 2000">1990's</option>
+          <option value="AND year(releaseYear) > 1999 AND year(releaseYear) < 2011">2000's</option>
+         </select> 
         <br/>
-        <input type="checkbox" name="name" id="name" />
+        <input type="checkbox" name="Name" id="Name" />
         <label for="name"> Order by Name </label>
         <br/>
         <input type="submit" value="Search" />
