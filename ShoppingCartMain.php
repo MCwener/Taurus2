@@ -76,10 +76,10 @@ function getCart(){
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Test </title>
+        <title> Classic Movies </title>
     </head>
     <body>
-    <h1> ShoppingCart </h1>
+    <h1> Old Movie House </h1>
     <hr>
     <form>
         Movie Name: <input type="text" name="Movie"/>  
