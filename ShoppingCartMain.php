@@ -36,8 +36,10 @@ function getMoviesSearch() {
             WHERE 1";
 
     if(!isset($_GET['Movie']) && empty($_GET['status']) &&
-        empty($_GET['Time'])){
-        $sql = "SELECT movieId, movieTitle, releaseYear, length 
+
+        empty($_GET['Time']) && empty($_GET['Decade']) &&
+            empty($_GET['Name'])){
+        $sql = "SELECT movieTitle, releaseYear, length 
                 FROM moviesTable join directorTable
                 ON moviesTable.directorId = directorTable.direcId";
     }
@@ -46,21 +48,23 @@ function getMoviesSearch() {
         $sql .=" AND movieTitle LIKE :Movie";
         $namedParameters[':Movie'] = '%' . $_GET['Movie'] . '%';
     }
-    if(isset($_GET['Decade'])){
-        $Decade = $_GET['Decade'];
-        $sql.=" $Decade";
-        
-    }
+    
     
     if(isset($_GET['Time'])){
         $Time = $_GET['Time'];
         $sql .=" $Time";
         
     }
-    if(isset($_GET['Name'])){
-        $sql.=" ORDER BY movieTitle"; 
+
+    if(isset($_GET['Decade'])){
+        $Decade = $_GET['Decade'];
+        $sql.=" $Decade";
         
     }
+    if(isset($_GET['Name'])){
+        $sql.=" ORDER BY movieTitle";   
+    }
+
     
     $stmt = $conn -> prepare ($sql);
     $stmt -> execute($namedParameters);
@@ -85,7 +89,8 @@ function moviesInCart($movieTitle){
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Test </title>
+
+        <title>  Classic Movies  </title>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -96,6 +101,9 @@ function moviesInCart($movieTitle){
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <!-- File to allow us to use JQuery-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+
+        
 
     </head>
     <style>
@@ -148,9 +156,11 @@ function moviesInCart($movieTitle){
     </script>
 
     <body>
+
     <div class="jumbotron">
         <h1> Old Movie House </h1>
     </div>
+
     <hr>
     
     <div class="alert alert-success" role="alert">
@@ -175,8 +185,8 @@ function moviesInCart($movieTitle){
           <option value="AND length > 100 AND length < 200">Between 100 and 200 mins</option>
           <option value="AND length > 200">More than 200 mins</option>
          </select> 
-        <br/>
-        <strong>Movie Decade:</strong>
+         
+        Movie Decade:
          <select name= "Decade">
           <option value="">Select Decade</option>
           <option value="AND year(releaseYear) < 1990">1980's</option>
@@ -184,9 +194,13 @@ function moviesInCart($movieTitle){
           <option value="AND year(releaseYear) > 1999 AND year(releaseYear) < 2011">2000's</option>
          </select> 
         <br/>
+
     </div>   
         
-        <input type="checkbox" name="Name" id="name" />
+       
+
+        <input type="checkbox" name="Name" id="Name" />
+
         <label for="name"> Order by Name </label>
         <br/>
         <input type="submit" value="Search" />
