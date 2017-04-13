@@ -1,5 +1,5 @@
-3 Tables
-CST 336 Database Schema
+--3 Tables
+--CST 336 Database Schema
 
 directorTable
 	direcId			(smallInt)(PrimaryKey)		
